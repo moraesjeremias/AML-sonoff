@@ -30,3 +30,16 @@
 *.exe
 *.out
 *.app
+
+# Mac folder artifacts
+.DS_Store
+
+# Secrets
+*.key
+*.crt
+*.pem
+*.der
+*.h
+
+#VS Code Artifacts
+*.json
