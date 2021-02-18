@@ -14,14 +14,14 @@ int relay = 12;
 void callback(char *topic, byte *payload, unsigned int length)
 {
     Serial.print("Message arrived [");
-  Serial.print(topic);
+    Serial.print(topic);
     Serial.print("] ");
     for (int i = 0; i < length; i++)
     {
         Serial.print((char)payload[i]);
     }
     Serial.print("\n");
-    
+
     DynamicJsonDocument topicJsonResponse(256);
     deserializeJson(topicJsonResponse, payload);
 
@@ -31,7 +31,7 @@ void callback(char *topic, byte *payload, unsigned int length)
 
     if (hasCarArrived)
     {
-      pinMode(relay, OUTPUT);
+        pinMode(relay, OUTPUT);
         digitalWrite(relay, HIGH);
         digitalWrite(LED_BUILTIN, LOW);
         delay(1000);
@@ -153,5 +153,4 @@ void loop()
         reconnect();
     }
     client.loop();
-    
 }
