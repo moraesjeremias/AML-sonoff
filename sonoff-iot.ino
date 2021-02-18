@@ -21,12 +21,14 @@ void callback(char *topic, byte *payload, unsigned int length)
         Serial.print((char)payload[i]);
     }
     Serial.print("\n");
+    
     DynamicJsonDocument topicJsonResponse(256);
     deserializeJson(topicJsonResponse, payload);
 
     bool hasCarArrived = topicJsonResponse["hasCarArrived"];
     Serial.print("Car State:");
     Serial.print(hasCarArrived);
+
     if (hasCarArrived)
     {
       pinMode(relay, OUTPUT);
@@ -83,6 +85,7 @@ void setup()
     Serial.begin(115200);
     setup_wifi();
     delay(1000);
+
     if (!SPIFFS.begin())
     {
         Serial.println("Failed to mount file system");
@@ -150,4 +153,5 @@ void loop()
         reconnect();
     }
     client.loop();
+    
 }
