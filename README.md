@@ -6,7 +6,11 @@ An IoT automation project for home light appliances
 
 - [x] Override Sonoff's firmware
 
-- [ ] Connect to AWS IoT Core
+- [x] Connect to AWS IoT Core
 
-- [ ] Subscribe to AWS IoT Core Pub/Sub Topic
+- [x] Subscribe to AWS IoT Core Pub/Sub Topic
+
+- [x] Serialize Pub/Sub payload into JSON with ArduinoJson
+
+- [x] Turn lights on from JSON Pub/Sub message
 
