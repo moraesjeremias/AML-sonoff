@@ -49,9 +49,7 @@ void reconnect()
     {
         if (client.connect("ESPthing"))
         {
-            Serial.println("connected");
-            client.publish(AWS_IOT_CORE_STATUS_CHECK_TOPIC, "Back online - Sonoff - 1 connected");
-            client.subscribe(AWS_IOT_CORE_TOPIC);
+            publishMessageWhenReconnectsToBroker(timeClient.getFormattedDate());
         }
         else
         {
@@ -67,6 +65,7 @@ void reconnect()
         }
     }
 }
+
 void SPIFFSLoading()
 {
     if (!SPIFFS.begin())
@@ -131,18 +130,29 @@ void setup()
     Serial.begin(115200);
     setup_wifi();
     delay(1000);
-
     SPIFFSLoading();
-
-    Serial.print("Heap: ");
-    Serial.println(ESP.getFreeHeap());
-}
-
-void loop()
-{
     if (!client.connected())
     {
         reconnect();
     }
+}
+
+void publishMessageWhenReconnectsToBroker(String zonedDateTime)
+{
+    char reconnectMessage[192];
+    StaticJsonDocument<192> pubSubJsonSerializable;
+    pubSubJsonSerializable["message"] = "Back online - Sonoff - 1 connected";
+    pubSubJsonSerializable["sender"] = "guapi-ldr-sonoff-1";
+    pubSubJsonSerializable["onlineStatus"] = true;
+    pubSubJsonSerializable["timeArrived"] = zonedDateTime;
+    serializeJson(pubSubJsonSerializable, reconnectMessage);
+
+    Serial.print("Connected");
+    client.publish(AWS_IOT_CORE_STATUS_CHECK_TOPIC, reconnectMessage);
+    client.subscribe(AWS_IOT_CORE_TOPIC);
+}
+
+void loop()
+{
     client.loop();
 }
