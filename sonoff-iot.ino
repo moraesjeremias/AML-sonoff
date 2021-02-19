@@ -6,10 +6,11 @@
 #include <WiFiUdp.h>
 #include <ArduinoJson.h>
 
-WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "pool.ntp.org");
-WiFiClientSecure secureWiFiEspClient;
 int relay = 12;
+int timezone = -3;
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP, "a.st1.ntp.br", timezone * 3600);
+WiFiClientSecure secureWiFiEspClient;
 
 void callback(char *topic, byte *payload, unsigned int length)
 {
