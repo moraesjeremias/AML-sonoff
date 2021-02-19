@@ -67,13 +67,8 @@ void reconnect()
         }
     }
 }
-
-void setup()
+void SPIFFSLoading()
 {
-    Serial.begin(115200);
-    setup_wifi();
-    delay(1000);
-
     if (!SPIFFS.begin())
     {
         Serial.println("Failed to mount file system");
@@ -129,6 +124,15 @@ void setup()
         Serial.println("ca loaded");
     else
         Serial.println("ca failed");
+}
+
+void setup()
+{
+    Serial.begin(115200);
+    setup_wifi();
+    delay(1000);
+
+    SPIFFSLoading();
 
     Serial.print("Heap: ");
     Serial.println(ESP.getFreeHeap());
