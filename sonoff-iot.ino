@@ -23,7 +23,7 @@ void callback(char *topic, byte *payload, unsigned int length)
         pinMode(relay, OUTPUT);
         digitalWrite(relay, HIGH);
         digitalWrite(LED_BUILTIN, LOW);
-        delay(1000);
+        delay(3*1000);
         pinMode(relay, OUTPUT);
         digitalWrite(relay, LOW);
         digitalWrite(LED_BUILTIN, HIGH);
@@ -48,7 +48,7 @@ void reconnect()
 {
     while (!client.connected())
     {
-        if (client.connect("ESPthing"))
+        if (client.connect("guapi-ldr-sonoff-1"))
         {
             publishMessageWhenReconnectsToBroker(timeClient.getFormattedDate());
         }
