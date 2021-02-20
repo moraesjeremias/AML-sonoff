@@ -23,7 +23,7 @@ void callback(char *topic, byte *payload, unsigned int length)
         pinMode(relay, OUTPUT);
         digitalWrite(relay, HIGH);
         digitalWrite(LED_BUILTIN, LOW);
-        delay(7*60*1000);
+        delay(3*60*1000);
         pinMode(relay, OUTPUT);
         digitalWrite(relay, LOW);
         digitalWrite(LED_BUILTIN, HIGH);
