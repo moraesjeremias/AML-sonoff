@@ -1,4 +1,4 @@
-# sonoff-iot
+# AML-sonoff
 An IoT automation project for home light appliances
 
 ## Milestones
