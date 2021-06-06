@@ -23,7 +23,7 @@ void callback(char *topic, byte *payload, unsigned int length)
         pinMode(relay, OUTPUT);
         digitalWrite(relay, HIGH);
         digitalWrite(LED_BUILTIN, LOW);
-        delay(3*60*1000);
+        delay(5 * 60 * 1000);
         pinMode(relay, OUTPUT);
         digitalWrite(relay, LOW);
         digitalWrite(LED_BUILTIN, HIGH);
@@ -48,7 +48,7 @@ void reconnect()
 {
     while (!client.connected())
     {
-        if (client.connect("guapi-ldr-sonoff-1"))
+        if (client.connect(AWS_IOT_THING_ID))
         {
             publishMessageWhenReconnectsToBroker(timeClient.getFormattedDate());
         }
@@ -142,8 +142,8 @@ void publishMessageWhenReconnectsToBroker(String zonedDateTime)
 {
     char reconnectMessage[192];
     StaticJsonDocument<192> pubSubJsonSerializable;
-    pubSubJsonSerializable["message"] = "Back online - Sonoff - 1 connected";
-    pubSubJsonSerializable["sender"] = "guapi-ldr-sonoff-1";
+    pubSubJsonSerializable["message"] = AWS_IOT_RECONNECT_MESSAGE;
+    pubSubJsonSerializable["sender"] = AWS_IOT_THING_ID;
     pubSubJsonSerializable["onlineStatus"] = true;
     pubSubJsonSerializable["timeArrived"] = zonedDateTime;
     serializeJson(pubSubJsonSerializable, reconnectMessage);
