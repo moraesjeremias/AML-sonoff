@@ -126,16 +126,21 @@ void SPIFFSLoading()
         Serial.println("ca failed");
 }
 
+void reconnectClient()
+{
+    if (!client.connected())
+    {
+        reconnect();
+    }
+}
+
 void setup()
 {
     Serial.begin(115200);
     setup_wifi();
     delay(1000);
     SPIFFSLoading();
-    if (!client.connected())
-    {
-        reconnect();
-    }
+    reconnectClient();
 }
 
 void publishMessageWhenReconnectsToBroker(String zonedDateTime)
@@ -148,12 +153,13 @@ void publishMessageWhenReconnectsToBroker(String zonedDateTime)
     pubSubJsonSerializable["timeArrived"] = zonedDateTime;
     serializeJson(pubSubJsonSerializable, reconnectMessage);
 
-    Serial.print("Connected");
-    client.publish(AWS_IOT_CORE_STATUS_CHECK_TOPIC, reconnectMessage);
     client.subscribe(AWS_IOT_CORE_TOPIC);
+    client.publish(AWS_IOT_CORE_STATUS_CHECK_TOPIC, reconnectMessage);
+    Serial.print("Connected");
 }
 
 void loop()
 {
     client.loop();
+    reconnectClient();
 }
